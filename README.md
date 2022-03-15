@@ -24,7 +24,7 @@ This is a RESTful API project developed using Django Rest Framework to memic Sta
 
 
 ## API Documentation
-Please visit [Documentation](http://143.244.206.178/docs/)
+Please visit [Documentation](https://documenter.getpostman.com/view/11546709/UVsJxnBu)
 
 
 ## Infrastructure (Provisioning)
