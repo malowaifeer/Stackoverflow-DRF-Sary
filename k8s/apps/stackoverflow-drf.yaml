@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stackoverflow-drf-deployment
+  labels:
+    app: stackoverflow-drf-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stackoverflow-drf-deployment
+  template:
+    metadata:
+      labels:
+        app: stackoverflow-drf-deployment
+    spec:
+      containers:
+      - name: stackoverflow-drf
+        image: registry.digitalocean.com/stackoverflow-k8s/stackoverflow-drf:latest
+        imagePullPolicy: Always
+        envFrom:
+          - secretRef:
+              name: stackoverflow-drf-prod-env
+        env:
+          - name: PORT
+            value: "8002" 
+        ports:
+        - containerPort: 8002
+      imagePullSecrets:
+        - name: stackoverflow-k8s
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: stackoverflow-drf-service
+spec:
+  type: LoadBalancer
+  ports: 
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8002
+  selector:
+    app: stackoverflow-drf-deployment
